@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | zhanshop-swoole / HttpClient.php    [ 2021/12/30 4:30 下午 ]
+// | flow-course / HttpClient.php    [ 2021/11/11 11:23 上午 ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2011~2021 zhangqiquan All rights reserved.
 // +----------------------------------------------------------------------
@@ -10,7 +10,6 @@ declare (strict_types=1);
 
 
 namespace zhanshop;
-
 
 class HttpClient
 {
@@ -189,10 +188,10 @@ class HttpClient
     /**
      * 设置状态信息回调方法[回调中可获取curl_getinfo的所有信息]
      * function(mixed $response){
-    echo $stats->getEffectiveUri() . "\n";
-    echo $stats->getTransferTime() . "\n";
-    var_dump($stats->getHandlerStats());
-    }
+        echo $stats->getEffectiveUri() . "\n";
+        echo $stats->getTransferTime() . "\n";
+        var_dump($stats->getHandlerStats());
+     }
      * @param mixed $callback
      */
     public function setOnStats(mixed $callback){
@@ -203,7 +202,7 @@ class HttpClient
     /**
      * 设置请求进度回调函数
     function($downloadTotal, $downloadedBytes, $uploadTotal, $uploadedBytes) {
-    var_dump($downloadTotal, $downloadedBytes, $uploadTotal, $uploadedBytes);
+        var_dump($downloadTotal, $downloadedBytes, $uploadTotal, $uploadedBytes);
     }
      * @param mixed $callback
      * @return $this

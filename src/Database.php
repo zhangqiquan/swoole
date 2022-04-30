@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | zhanshop-swoole / Database.php    [ 2021/12/30 4:25 下午 ]
+// | flow-course / Database.php    [ 2021/10/25 9:35 上午 ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2011~2021 zhangqiquan All rights reserved.
 // +----------------------------------------------------------------------
@@ -110,5 +110,24 @@ class Database
         $modelFile = App::rootPath().str_replace('\\', '/', $model).'.php';
         if(!file_exists($modelFile)) return false;
         return true;
+    }
+
+    /**
+     * 启动一个分布式事务执行【 要确保你的数据表引擎为InnoDB，并且开启XA事务支持。】
+     * @param callable $callback
+     * @param array $dbs
+     * @return void
+     */
+    public function transactionXa(callable $callback, array $dbs = []){
+        return Db::transactionXa($callback, $dbs);
+    }
+
+    /**
+     * 启动一个事务【当闭包中的代码发生异常会自动回滚】
+     * @param callable $callback
+     * @return mixed
+     */
+    public function transaction(callable $callback){
+        return Db::transaction($callback);
     }
 }

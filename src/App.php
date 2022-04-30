@@ -29,7 +29,8 @@ namespace zhanshop;
  * @method static Middleware middleware()
  * @method static Console console()
  * @method static HttpClient httpclient()
- * @method static Server server()
+ * @method static Swoole swoole()
+ * @method static Curl curl()
  */
 class App extends Container
 {
@@ -102,9 +103,10 @@ class App extends Container
         'service'         => Service::class,
         'restful'         => RESTFul::class,
         'middleware'      => Middleware::class,
-        'server'          => Server::class,
+        'swoole'          => Swoole::class,
         'aes'             => Aes::class,
-        'httpclient'      => HttpClient::class
+        'httpclient'      => HttpClient::class,
+        'curl'            => Curl::class
     ];
 
     /**

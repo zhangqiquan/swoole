@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | zhanshop-swoole / Route.php    [ 2021/12/30 4:34 下午 ]
+// | flow-course / Route.php    [ 2021/10/25 9:36 上午 ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2011~2021 zhangqiquan All rights reserved.
 // +----------------------------------------------------------------------
@@ -52,19 +52,19 @@ class Route
      */
     protected function parse(){
         $data = [];
-        $url = $_SERVER['PATH_INFO'];
+        $url = App::request()->pathinfo();
         $version = strstr($url, '/', true);//路由文件版本
         $routeFile = App::routePath() . $version . '.php';
         if(file_exists($routeFile)) require_once $routeFile;
         $data['version'] = $version;
-        $data['uri']     = strstr($url, '/');
 
         $urlParam = explode('$', $url);
+        $data['uri']     = strstr($urlParam[0], '/');
         if(isset($urlParam[1])){
             $urlParam[1] = explode('/', $urlParam[1]);
             foreach($urlParam[1] as $k => $v){
                 if($k % 2 == 0){
-                    $_REQUEST[$v] = $urlParam[1][$k+1]; // 追加全局请求参数
+                    $_REQUEST[$v] = $urlParam[1][$k+1] ?? null; // 追加全局请求参数
                 }
             }
         }
@@ -75,19 +75,18 @@ class Route
      * 检查路由追加额外参数
      * @return array
      */
-    public function check($method){
+    public function check(){
         $parse = $this->parse(); // 解析url参数
         $route = $this->registers[$parse['uri']] ?? Error::setError('您访问的接口不存在', 404, 404);
+        $request = App::request();
+        $method = $request->method();
         if(!in_array($method, $route[0])) Error::setError('当前接口不支持'.$method.'请求', 403, 403);
-
         $actions = explode('@', $route[2]);
         $version = str_replace('.', '_', $parse['version']);
         $controller = '\app\api\\'.$version.'\controller\\'.$actions[0];
-        return [
-            'version' => $version,
-            'controller' => $controller,
-            'action' => $actions[1]
-        ];
+        $request->setVersion($version); // 设置请求版本
+        $request->setController($controller); // 设置控制器名称
+        $request->setAction($actions[1]); // 设置控制器方法
     }
 
     /**

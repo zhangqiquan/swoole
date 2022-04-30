@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | zhanshop-swoole / Console.php    [ 2021/12/30 4:21 下午 ]
+// | flow-course / Console.php    [ 2021/10/28 2:21 下午 ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2011~2021 zhangqiquan All rights reserved.
 // +----------------------------------------------------------------------
@@ -10,7 +10,6 @@ declare (strict_types=1);
 
 
 namespace zhanshop;
-
 
 use kernel\console\command\ApiCreate;
 use kernel\console\command\ApiDocManager;

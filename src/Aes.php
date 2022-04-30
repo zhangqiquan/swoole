@@ -16,7 +16,7 @@ class Aes
      * var string $method 加解密方法，可通过openssl_get_cipher_methods()获得
      */
     protected $method = 'AES-128-ECB';
-
+    
     protected $commonKey = 'bxV8lFZs8oqmREMz9^kacHn%y0zE*KnNGwp*dt!JV7olxwKz6d1NjLH9TQSBqEZhvF4C$vzC*6F^oonTi9$Xt4Tt35QAffigBiN';
     /**
      * var string $secret_key 加解密的密钥
@@ -36,14 +36,14 @@ class Aes
             '9687cbaf9c46be552a35b57770b162a7997d890a5a5a499bd785193a3fa49d9215ff08349114e788964bc5187fc48b8a9152b5104dc77c3368fa94501ecd1501'
         ],
     ];
-
+    
     protected $secret_version = '0';//加密版本号 版本号可以定期修改增强安全
-
+    
     /**
      * var string $iv 加解密的向量，有些方法需要设置比如CBC
      */
     protected $iv = '';
-
+    
     /**
      * var string $options （不知道怎么解释，目前设置为0没什么问题）
      */
@@ -57,7 +57,7 @@ class Aes
         $appKey = App::config()->get('app.key');
         if($appKey) $this->commonKey = $appKey;
     }
-
+    
     /**
      * @公共加密
      * @param string $data
@@ -92,7 +92,7 @@ class Aes
         $version = rtrim($version, "==");
         return $version.openssl_encrypt($data, $this->method, $secretKey, $this->options, $this->iv);
     }
-
+    
     /**
      * @解密方法，对数据进行解密，返回解密后的数据
      *
@@ -114,5 +114,5 @@ class Aes
         $data = substr($data, 22);
         return openssl_decrypt($data, $this->method, $secretKey, $this->options, $this->iv);
     }
-
 }
+

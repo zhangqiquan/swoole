@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | zhanshop-swoole / Middleware.php    [ 2021/12/30 4:32 下午 ]
+// | flow-course / Middleware.php    [ 2021/10/27 6:22 下午 ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2011~2021 zhangqiquan All rights reserved.
 // +----------------------------------------------------------------------
@@ -11,7 +11,11 @@ declare (strict_types=1);
 
 namespace zhanshop;
 
-
+/**
+ * 中间件仅提供一次执行
+ * Class Middleware
+ * @package kernel
+ */
 class Middleware
 {
     /**

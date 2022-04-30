@@ -117,9 +117,13 @@ class Input
      */
     public function input(string $name, string $description, ?string $default = null){
         echo '请输入('.$name.')'.$description . '：';
-        $fp = fopen('/dev/stdin', 'r');
-        $input = fgets($fp, 255);
-        fclose($fp);
+        if(PHP_OS == 'WINNT'){
+            $input = readline();
+        }else{
+            $fp = fopen('/dev/stdin', 'r');
+            $input = fgets($fp, 255);
+            fclose($fp);
+        }
         $input = chop($input);
         $input = $input === '' ? $default : $input;
         $this->param[$name] = $input ?? $this->input($name, $description, $default);

@@ -110,7 +110,7 @@ class Output
      * @param string $errfile
      * @param string $errline
      */
-    public static function render(int $errno, string $errstr, string $errfile, string $errline){
+    public static function render(int $errno, string $errstr, string $errfile, mixed $errline){
         throw new \Exception($errstr.' :errfile:'.$errfile.', line:'.$errline, 500);
     }
 

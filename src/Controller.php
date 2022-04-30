@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | zhanshop-swoole / Controller.php    [ 2021/12/30 4:24 下午 ]
+// | flow-course / Controller.php    [ 2021/10/25 3:55 下午 ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2011~2021 zhangqiquan All rights reserved.
 // +----------------------------------------------------------------------
@@ -42,8 +42,8 @@ class Controller
     public function result(mixed $data = [], $msg = '成功', $code = 0){
         App::response()->contentType('application/json');
         return [
-            'ecode' => $code,
-            'msg' => $msg,
+            'errorcode' => $code,
+            'errormsg' => $msg,
             'data' => $data,
             'time' => App::request()->time(true), // 请求时间
             'runtime' => microtime(true) - App::beginTime(),

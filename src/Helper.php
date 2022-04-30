@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | zhanshop-swoole / Helper.php    [ 2021/12/30 4:28 下午 ]
+// | flow-course / Helper.php    [ 2021/10/27 10:54 上午 ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2011~2021 zhangqiquan All rights reserved.
 // +----------------------------------------------------------------------
@@ -60,8 +60,14 @@ class Helper
      * @param int $num
      * @return string
      */
-    public static function uuid(int $num = 0){
-        return md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'].$_SERVER['REQUEST_TIME_FLOAT'].$num);
+    public static function uuid(){
+        $ip = str_replace('.','',$_SERVER['REMOTE_ADDR'] ?? '127.0.0.1');//9位
+        // 最高12
+        if(is_numeric($ip) == false) $ip = '127001';
+        // 最高14
+        $time = substr((new \DateTime())->format('ymdHisu'), 0, 14);
+        $code = self::getNonceStr(32 - strlen($ip) -  strlen($time));
+        return $code.$time.$ip;
     }
 
     /**
@@ -81,4 +87,61 @@ class Helper
 declare (strict_types=1);\n\n";
 
     }
+
+    /**
+     * 生成一个订单号
+     * @param $suffix
+     * @return string
+     */
+    public static function orderId($suffix = false){
+        $ip = str_replace('.','',$_SERVER['REMOTE_ADDR'] ?? '127.0.0.1');//9位
+        if(is_numeric($ip) == false){
+            $ip = '127001';
+        }
+        if(($s = 9- strlen($ip))>0)$ip.=str_repeat ('0', $s);
+        $ip = substr($ip, 0, 9);
+        $date = new \DateTime();
+        $date = substr($date->format('ymdHisu'), 0, 14);
+        $order_id = $date.$ip;
+        if(!$suffix){
+            $order_id .= rand(100, 999);
+        }else{
+            $order_id .= $suffix;
+            if(($s = 3- strlen($suffix))>0)$order_id .= str_repeat ('0', $s);
+        }
+        return $order_id;
+
+    }
+
+    /**
+     *
+     * 产生随机字符串，不长于32位
+     * @param int $length
+     * @return 产生的随机字符串
+     */
+    public static function getNonceStr($length = 32)
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $str ="";
+        for ( $i = 0; $i < $length; $i++ )  {
+            $str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);
+        }
+        return $str;
+    }
+
+    /**
+     * 获取当前域名
+     * @param $scheme
+     * @return mixed|string
+     */
+    public static function requestDomain($scheme = true){
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        if($scheme){
+            $https = $_SERVER['HTTPS'] ?? 'off';
+            $https = ($https == 'on') ? 'https://' : 'http://';
+            $host = $https.$host;
+        }
+        return $host;
+    }
+
 }
